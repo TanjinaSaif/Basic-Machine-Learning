@@ -1,0 +1,41 @@
+import pandas as pd
+# import numpy as np
+# import matplotlib.pyplot as plt
+
+import seaborn as sns
+sns.set()
+
+train = pd.read_csv(r'C:\Users\Lab4PC17\Desktop\TITANIC ML\train.csv')
+test = pd.read_csv(r'C:\Users\Lab4PC17\Desktop\TITANIC ML\test.csv')
+print('\n THIS IS TRAINING DATASET  ')
+print(train.shape)
+print(train.head())
+
+
+print('\n THIS IS TESTING DATASET')
+print(test.shape)
+print(test.head())
+
+survived = train[train['Survived'] == 1]
+not_survived = train[train['Survived'] == 0]
+
+print("\nSurvived: %i (%.1f%%)"%(len(survived), float(len(survived))/len(train)*100.0))
+print("Not Survived: %i (%.1f%%)"%(len(not_survived), float(len(not_survived))/len(train)*100.0))
+print("Total: %i"%len(train))
+print('\nPASSENGER NUMBER OF CLASSES')
+print(train.Pclass.value_counts())
+print('\nNUMBER OF MALES & FEMALES')
+print(train.Sex.value_counts())
+
+train_test_data = [train, test] # combining train and test dataset#
+#PREPROCESSING_GENDER_COLLUMN#
+for dataset in train_test_data:
+    dataset['Sex'] = dataset['Sex'].map({'female': 1, 'male': 0}).astype(int)
+    print(train.head())
+#PREPROCESSING_EMBARKED_FEATURE#
+for dataset in train_test_data:
+    dataset['Embarked'] = dataset['Embarked'].fillna('S') #FILLING NAN VALUES WITH S(S=MAX)#
+for dataset in train_test_data:
+    #print(dataset.Embarked.unique())#
+    dataset['Embarked'] = dataset['Embarked'].map({'S': 0, 'C': 1, 'Q': 2}).astype(int)
+    print(train.head())
